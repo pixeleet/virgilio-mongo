@@ -1,0 +1,39 @@
+{
+  "name": "virgilio-mongo",
+  "version": "0.1.0",
+  "description": "A mongo extension for virgilio",
+  "main": "lib/virgilio-mongo.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/icemobilelab/virgilio-mongo.git"
+  },
+  "author": "Icemobile BV",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://github.com/icemobilelab/virgilio/raw/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/icemobilelab/virgilio-mongo/issues"
+  },
+  "homepage": "https://github.com/icemobilelab/virgilio-mongo",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^1.18.2",
+    "must": "^0.11.0",
+    "gulp": "^3.6.2",
+    "gulp-mocha": "^0.4.1",
+    "gulp-help": "^0.1.6",
+    "gulp-docco": "0.0.4",
+    "gulp-jshint": "^1.6.1",
+    "jshint-stylish": "^0.2.0",
+    "gulp-istanbul": "^0.2.0"
+  }
+}
