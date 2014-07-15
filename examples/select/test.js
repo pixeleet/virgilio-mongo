@@ -95,6 +95,26 @@ describe('I can perform selects on mongo', function() {
             .done();
     });
 
+    it('allows multiple where statements', function(done) {
+        virgilio.mongo()
+            .from(COLLECTION_NAME)
+            .where('nationalities', 'contains', 'swiss')
+            .where('nationalities', 'contains', 'italian')
+            .select()
+            .then(function(result) {
+                var expected = _.filter(testData, function(person) {
+                    return (
+                        person.nationalities.indexOf('swiss') !== -1 &&
+                        person.nationalities.indexOf('italian') !== -1
+                    );
+                });
+                assert.deepEqual(result, expected);
+                done();
+            })
+            .catch(done)
+            .done();
+    });
+
     it('allows sorting of results', function(done) {
         virgilio.mongo()
             .from(COLLECTION_NAME)

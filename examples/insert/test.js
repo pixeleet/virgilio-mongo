@@ -45,7 +45,7 @@ describe('I can perform inserts on mongo', function() {
 
     it('gets the complete data', function(done) {
         virgilio.mongo()
-            .from(COLLECTION_NAME)
+            .into(COLLECTION_NAME)
             .insert(testData)
             .then(function(result) {
                 checkDataInMongo(done);
