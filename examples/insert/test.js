@@ -43,7 +43,7 @@ describe('I can perform inserts on mongo', function() {
         });
     }
 
-    it('gets the complete data', function(done) {
+    it('inserts an array of items', function(done) {
         virgilio.mongo()
             .into(COLLECTION_NAME)
             .insert(testData)
