@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it, before */
 var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
 var virgilio = require('./');
@@ -10,6 +10,8 @@ var COLLECTION_NAME = 'virgilio-mongo-tests';
 describe('I can perform selects on mongo', function() {
 
     before(function(done) {
+        //Add some test data to mongo to query against.
+        var db = null;
         var collection = null;
         async.waterfall([
             function connectToMongo(callback) {
@@ -18,7 +20,8 @@ describe('I can perform selects on mongo', function() {
                     callback
                 );
             },
-            function dropDocument(db, callback) {
+            function dropDocument(newDb, callback) {
+                db = newDb;
                 collection = db.collection(COLLECTION_NAME);
                 collection.remove({}, callback);
             },
@@ -26,6 +29,7 @@ describe('I can perform selects on mongo', function() {
                 collection.insert(testData, callback);
             }
         ], function(err) {
+            db.close();
             done(err);
         });
     });
@@ -47,7 +51,7 @@ describe('I can perform selects on mongo', function() {
             .from(COLLECTION_NAME)
             .select('name', 'table')
             .then(function(result) {
-                expected = testData.map(function(person) {
+                var expected = testData.map(function(person) {
                     return {
                         _id: person._id,
                         name: person.name,
