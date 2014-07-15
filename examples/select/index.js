@@ -4,10 +4,10 @@ var options = {
         dbName: 'test'
     },
     //Don't log anything (it's annoying when runnig tests).
-    logger: {
-        name: 'virgilio',
-        streams: []
-    }
+    // logger: {
+    //     name: 'virgilio',
+    //     streams: []
+    // }
 };
 var virgilio = new Virgilio(options);
 virgilio.loadModule(require('../../lib/virgilio-mongo'));
