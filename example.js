@@ -2,6 +2,32 @@ var Virgilio = require('virgilio');
 var virgilio = new Virgilio();
 virgilio.loadModule(require('./lib/virgilio-mongo'));
 
+virgilio.execute('mongo.query', {
+    from: 'people',
+    where: [
+        ['nationality', '==', 'dutch']
+    ],
+    select: ['name']
+})
+.then(function(response) {
+    console.log('RESPONSE');
+    console.log(response);
+    process.exit();
+})
+.done();
+
+// virgilio.execute('mongo.query', {
+//     into: 'frameworks',
+//     insert: [
+//         { name: 'virgilio', state: 'awesome' }
+//     ]
+// })
+// .then(function(response) {
+//     console.log('RESPONSE');
+//     console.log(response);
+// })
+// .done();
+
 
 
 // //1
