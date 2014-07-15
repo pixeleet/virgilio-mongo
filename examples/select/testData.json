@@ -1,0 +1,6 @@
+[
+    { "name": "jasper", "table": 2, "nationalities": ["dutch", "swiss"] },
+    { "name": "rolf", "table": 1, "nationalities": ["dutch"] },
+    { "name": "luca", "table": 1, "nationalities": ["italian", "swiss"] },
+    { "name": "daphne", "table": 1, "nationalities": ["dutch"] }
+]

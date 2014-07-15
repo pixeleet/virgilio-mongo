@@ -1,8 +1,9 @@
-var gulp = require('gulp'),
-    mocha = require('gulp-mocha'),
-    docco = require('gulp-docco'),
-    jshint = require('gulp-jshint'),
-    istanbul = require('gulp-istanbul');
+var gulp = require('gulp');
+var mocha = require('gulp-mocha');
+var docco = require('gulp-docco');
+var jshint = require('gulp-jshint');
+var istanbul = require('gulp-istanbul');
+var exit = require('gulp-exit');
 
 // Help module
 require('gulp-help')(gulp);
@@ -10,10 +11,11 @@ require('gulp-help')(gulp);
 gulp.task('test', 'Run the application tests', function () {
     // Modules used in tests must be loaded in this task
     var must = require('must');
-    gulp.src(['./examples/**/*.test.js', './tests/**/*.test.js'])
+    gulp.src(['./examples/**/test.js'])
         .pipe(mocha({
             reporter: 'spec'
-        }));
+        }))
+        .pipe(exit());
 });
 
 gulp.task('coverage', 'Create istanbul code coverage report form tests', function (cb) {
