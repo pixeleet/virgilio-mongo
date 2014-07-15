@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/icemobilelab/virgilio-mongo",
   "dependencies": {
-    "mongodb": "~1.4.7"
+    "mongodb": "~1.4.7",
+    "chain-args": "~0.2.0"
   },
   "devDependencies": {
     "mocha": "^1.18.2",
