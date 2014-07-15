@@ -1,5 +1,10 @@
 var Virgilio = require('virgilio');
-var virgilio = new Virgilio();
+var options = {
+    mongo: {
+        dbName: 'bsos'
+    }
+};
+var virgilio = new Virgilio(options);
 virgilio.loadModule(require('./lib/virgilio-mongo'));
 
 virgilio.execute('mongo.query', {
