@@ -48,9 +48,14 @@ describe('I can perform inserts on mongo', function() {
             .into(COLLECTION_NAME)
             .insert(testData)
             .then(function(result) {
+                assert.deepEqual(result, testData);
+                return result;
+            })
+            .then(function(result) {
                 checkDataInMongo(done);
             })
             .catch(done)
             .done();
     });
+
 });
