@@ -4,7 +4,6 @@ services:
 build:
   steps:
     - npm-install
-    - npm-test
   after-steps:
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
