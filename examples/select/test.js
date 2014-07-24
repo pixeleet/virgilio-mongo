@@ -7,6 +7,8 @@ var async =  require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
+var ids = null;
+
 describe('I can perform selects on mongo', function() {
 
     before(function(done) {
@@ -28,8 +30,9 @@ describe('I can perform selects on mongo', function() {
             function insertTestData(number, result, callback) {
                 collection.insert(testData, callback);
             }
-        ], function(err) {
+        ], function(err, result) {
             db.close();
+            ids = result;
             done(err);
         });
     });
@@ -74,6 +77,30 @@ describe('I can perform selects on mongo', function() {
                 var expected = _.where(testData, { name: 'jasper' });
                 assert.deepEqual(result, expected);
                 done();
+            })
+            .catch(done)
+            .done();
+    });
+
+    it('allows where statement to search for a specific document id',
+    function(done) {
+        virgilio.mongo()
+            .from(COLLECTION_NAME)
+            .select()
+            .then(function(result) {
+                result = result[0];
+                var searchId = result._id;
+
+                virgilio.mongo()
+                    .from(COLLECTION_NAME)
+                    .where('_id', '==', 'ObjectId("' + searchId + '")')
+                    .select()
+                    .then(function(foundObjects) {
+                        var foundObj = foundObjects[0];
+                        assert.deepEqual(foundObj, result);
+
+                        done();
+                    });
             })
             .catch(done)
             .done();
