@@ -1,4 +1,4 @@
 [
-    { "type": "apple", "state": "healthy" },
-    { "type": "pear", "state": "healthy" }
+    { "_id": "1", "type": "apple", "state": "healthy" },
+    { "_id": "2", "type": "pear", "state": "healthy" }
 ]
