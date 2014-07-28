@@ -1,6 +1,6 @@
 {
   "name": "virgilio-mongo",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A mongo extension for virgilio",
   "main": "lib/virgilio-mongo.js",
   "directories": {

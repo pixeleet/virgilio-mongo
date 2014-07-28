@@ -55,6 +55,7 @@ describe('I can perform updates on mongo', function() {
             .into(COLLECTION_NAME)
             .update(doc)
             .then(function(result) {
+                assert.deepEqual(result, doc);
                 checkDataInMongo(done);
             })
             .catch(done)
