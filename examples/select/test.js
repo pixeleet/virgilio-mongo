@@ -7,8 +7,6 @@ var async =  require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
-var ids = null;
-
 describe('I can perform selects on mongo', function() {
 
     before(function(done) {
@@ -32,7 +30,6 @@ describe('I can perform selects on mongo', function() {
             }
         ], function(err, result) {
             db.close();
-            ids = result;
             done(err);
         });
     });

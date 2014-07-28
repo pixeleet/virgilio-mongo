@@ -1,0 +1,4 @@
+[
+    { "type": "apple", "state": "healthy" },
+    { "type": "pear", "state": "healthy" }
+]
