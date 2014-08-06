@@ -119,6 +119,24 @@ describe('I can perform selects on mongo', function() {
             .done();
     });
 
+    it('allows where statements with a `within` operator', function(done) {
+        virgilio.mongo()
+            .from(COLLECTION_NAME)
+            .where('name', 'within', ['rolf', 'daphne'])
+            .select()
+            .then(function(result) {
+                var expected = _.filter(testData, function(person) {
+                    var isDaphne = (person.name === 'daphne');
+                    var isRolf = (person.name === 'rolf');
+                    return isDaphne || isRolf;
+                });
+                assert.deepEqual(result, expected);
+                done();
+            })
+            .catch(done)
+            .done();
+    });
+
     it('allows multiple where statements', function(done) {
         virgilio.mongo()
             .from(COLLECTION_NAME)
