@@ -119,6 +119,23 @@ describe('I can perform selects on mongo', function() {
             .done();
     });
 
+    it('allows where statements with a `!=` operator', function(done) {
+        virgilio.mongo()
+            .from(COLLECTION_NAME)
+            .where('table', '!=', 1)
+            .select()
+            .then(function(result) {
+                var expected = _.filter(testData, function(person) {
+                    var isTable1 = (person.table === 1);
+                    return !isTable1;
+                });
+                assert.deepEqual(result, expected);
+                done();
+            })
+            .catch(done)
+            .done();
+    });
+
     it('allows where statements with a `in` operator', function(done) {
         virgilio.mongo()
             .from(COLLECTION_NAME)
