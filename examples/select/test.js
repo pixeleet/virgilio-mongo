@@ -218,4 +218,15 @@ describe('I can perform selects on mongo', function() {
             .catch(done)
             .done();
     });
+
+    it('throws an error when an invalid ObjectId is used.', function(done) {
+        virgilio.mongo()
+            .from(COLLECTION_NAME)
+            .where('_id', '==', 'ObjectId("foo")')
+            .select()
+            .catch(virgilio.InvalidObjectIdError, function() {
+                done();
+            })
+            .done();
+    });
 });
