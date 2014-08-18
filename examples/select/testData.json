@@ -1,6 +1,6 @@
 [
-    { "name": "jasper", "table": 2, "nationalities": ["dutch", "swiss"] },
-    { "name": "rolf", "table": 1, "nationalities": ["dutch"] },
-    { "name": "luca", "table": 1, "nationalities": ["italian", "swiss"] },
-    { "name": "daphne", "table": 1, "nationalities": ["dutch"] }
+    { "name": "jasper", "table": 2, "nationalities": ["dutch", "swiss"], "integerValue": 1  },
+    { "name": "rolf", "table": 1, "nationalities": ["dutch"], "integerValue": 2 },
+    { "name": "luca", "table": 1, "nationalities": ["italian", "swiss"], "integerValue": 3 },
+    { "name": "daphne", "table": 1, "nationalities": ["dutch"], "integerValue": 4 }
 ]

@@ -23,9 +23,11 @@ describe('I can perform selects on mongo', function() {
             function dropDocument(newDb, callback) {
                 db = newDb;
                 collection = db.collection(COLLECTION_NAME);
-                collection.remove({}, callback);
+                collection.remove({}, function() {
+                    callback();
+                });
             },
-            function insertTestData(number, result, callback) {
+            function insertTestData(callback) {
                 collection.insert(testData, callback);
             }
         ], function(err, result) {
@@ -72,6 +74,23 @@ describe('I can perform selects on mongo', function() {
             .select()
             .then(function(result) {
                 var expected = _.where(testData, { name: 'jasper' });
+                assert.deepEqual(result, expected);
+                done();
+            })
+            .catch(done)
+            .done();
+    });
+
+    it('allows where statements with an `>=` operator', function(done) {
+        var valueToCheckAgainst = 3;
+        virgilio.mongo()
+            .from(COLLECTION_NAME)
+            .where('integerValue', '>=', valueToCheckAgainst)
+            .select()
+            .then(function(result) {
+                var expected = _.filter(testData, function(record) {
+                    return (record.integerValue >= valueToCheckAgainst);
+                });
                 assert.deepEqual(result, expected);
                 done();
             })
@@ -158,13 +177,13 @@ describe('I can perform selects on mongo', function() {
         virgilio.mongo()
             .from(COLLECTION_NAME)
             .where('nationalities', 'contains', 'swiss')
-            .where('nationalities', 'contains', 'italian')
+            .where('table', '==', 2)
             .select()
             .then(function(result) {
                 var expected = _.filter(testData, function(person) {
                     return (
                         person.nationalities.indexOf('swiss') !== -1 &&
-                        person.nationalities.indexOf('italian') !== -1
+                        person.table === 2
                     );
                 });
                 assert.deepEqual(result, expected);
