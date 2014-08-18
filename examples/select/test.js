@@ -80,7 +80,7 @@ describe('I can perform selects on mongo', function() {
             .catch(done)
             .done();
     });
-    
+
     it('allows where statements with an `>=` operator', function(done) {
         var valueToCheckAgainst = 3;
         virgilio.mongo()
@@ -88,8 +88,8 @@ describe('I can perform selects on mongo', function() {
             .where('integerValue', '>=', valueToCheckAgainst)
             .select()
             .then(function(result) {
-                var expectedCount = _.filter(testData, function(record) { 
-                    record.integerValue >= valueToCheckAgainst;
+                var expected = _.filter(testData, function(record) {
+                    return (record.integerValue >= valueToCheckAgainst);
                 });
                 assert.deepEqual(result, expected);
                 done();
@@ -97,7 +97,7 @@ describe('I can perform selects on mongo', function() {
             .catch(done)
             .done();
     });
-    
+
     it('allows where statement to search for a specific document id',
     function(done) {
         virgilio.mongo()
@@ -177,13 +177,13 @@ describe('I can perform selects on mongo', function() {
         virgilio.mongo()
             .from(COLLECTION_NAME)
             .where('nationalities', 'contains', 'swiss')
-            .where('nationalities', 'contains', 'italian')
+            .where('table', '==', 2)
             .select()
             .then(function(result) {
                 var expected = _.filter(testData, function(person) {
                     return (
                         person.nationalities.indexOf('swiss') !== -1 &&
-                        person.nationalities.indexOf('italian') !== -1
+                        person.table === 2
                     );
                 });
                 assert.deepEqual(result, expected);

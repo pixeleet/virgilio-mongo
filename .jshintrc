@@ -15,6 +15,5 @@
 	"maxlen": 80,
 	"browser": true,
 	"jquery": true,
-	"node": true,
-    "predef": [ "BacApp", "Ember", "moment", "_" ]
+	"node": true
 }
