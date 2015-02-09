@@ -10,6 +10,6 @@ var options = {
     }
 };
 var virgilio = new Virgilio(options);
-virgilio.loadModule(require('../../lib/virgilio-mongo'));
+virgilio.loadModule$(require('../../lib/virgilio-mongo'));
 
 module.exports = virgilio;
