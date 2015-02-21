@@ -3,7 +3,7 @@ var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
 var virgilio = require('./');
 var _ = require('underscore');
-var async =  require('async');
+var async = require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
@@ -30,7 +30,7 @@ describe('I can perform selects on mongo', function() {
             function insertTestData(callback) {
                 collection.insert(testData, callback);
             }
-        ], function(err, result) {
+        ], function(err) {
             db.close();
             done(err);
         });
