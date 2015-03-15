@@ -2,7 +2,7 @@
 var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
 var virgilio = require('./');
-var async =  require('async');
+var async = require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
@@ -27,7 +27,7 @@ describe('I can perform updates on mongo', function() {
             function insertTestData(number, result, callback) {
                 collection.insert(testData, callback);
             }
-        ], function(err, result) {
+        ], function(err) {
             done(err);
         });
     });

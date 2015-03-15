@@ -2,7 +2,7 @@
 var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
 var virgilio = require('./');
-var async =  require('async');
+var async = require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
@@ -51,7 +51,7 @@ describe('I can perform inserts on mongo', function() {
                 assert.deepEqual(result, testData);
                 return result;
             })
-            .then(function(result) {
+            .then(function() {
                 checkDataInMongo(done);
             })
             .catch(done)

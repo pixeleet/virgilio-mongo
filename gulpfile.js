@@ -1,16 +1,16 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var docco = require('gulp-docco');
-var jshint = require('gulp-jshint');
 var istanbul = require('gulp-istanbul');
 var exit = require('gulp-exit');
+var eslint = require('gulp-eslint');
 
 // Help module
 require('gulp-help')(gulp);
 
 gulp.task('test', 'Run the application tests', function () {
     // Modules used in tests must be loaded in this task
-    var must = require('must');
+    // var must = require('must');
     gulp.src(['./examples/**/test.js'])
         .pipe(mocha({
             reporter: 'spec'
@@ -22,7 +22,7 @@ gulp.task('coverage', 'Create istanbul code coverage report form tests', functio
     gulp.src(['lib/**/*.js', 'index.js'])
         .pipe(istanbul())
         .on('finish', function () {
-            var must = require('must');
+            // var must = require('must');
             gulp.src(['./examples/**/*.test.js', './tests/**/*.test.js'])
                 .pipe(mocha())
                 .pipe(istanbul.writeReports())
@@ -36,8 +36,14 @@ gulp.task('docs', 'Build the documentation', function () {
         .pipe(gulp.dest('./docs'));
 });
 
-gulp.task('lint', 'Execute JSHint checks on the code', function () {
-    gulp.src(['lib/*.js'])
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter('jshint-stylish'));
+gulp.task('lint', 'Lint all js files.', function() {
+    return gulp.src([
+        './**/*.js',
+        '!./node_modules/**/*.js',
+        '!./coverage/**/*.js',
+        '!./report/**/*.js'
+    ])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
 });
