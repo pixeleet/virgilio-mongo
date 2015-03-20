@@ -44,8 +44,7 @@ describe('I can perform inserts on mongo', function() {
     }
 
     it('inserts an array of items', function(done) {
-        virgilio.mongo()
-            .into(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .insert(testData)
             .then(function(result) {
                 assert.deepEqual(result, testData);
@@ -54,8 +53,7 @@ describe('I can perform inserts on mongo', function() {
             .then(function() {
                 checkDataInMongo(done);
             })
-            .catch(done)
-            .done();
+            .catch(done);
     });
 
 });

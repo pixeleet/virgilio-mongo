@@ -7,7 +7,7 @@ var async = require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
-describe('I can perform selects on mongo', function() {
+describe('I can perform lists on mongo', function() {
 
     before(function(done) {
         //Add some test data to mongo to query against.
@@ -37,21 +37,19 @@ describe('I can perform selects on mongo', function() {
     });
 
     it('gets the complete data', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
-            .select()
-            .then(function(result) {
-                assert.deepEqual(result, testData);
-                done();
-            })
-            .catch(done)
-            .done();
+        virgilio.mongo(COLLECTION_NAME)
+        .find()
+        .then(function(result) {
+            assert.deepEqual(result, testData);
+            done();
+        })
+        .catch(done);
+        //done();
     });
 
     it('gets only certain fields', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
-            .select('name', 'table')
+        virgilio.mongo(COLLECTION_NAME)
+            .list('name', 'table')
             .then(function(result) {
                 var expected = testData.map(function(person) {
                     return {
@@ -63,30 +61,28 @@ describe('I can perform selects on mongo', function() {
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows where statements with an `==` operator', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .where('name', '==', 'jasper')
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.where(testData, { name: 'jasper' });
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows where statements with an `>=` operator', function(done) {
         var valueToCheckAgainst = 3;
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .where('integerValue', '>=', valueToCheckAgainst)
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.filter(testData, function(record) {
                     return (record.integerValue >= valueToCheckAgainst);
@@ -94,23 +90,21 @@ describe('I can perform selects on mongo', function() {
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows where statement to search for a specific document id',
     function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
-            .select()
+        virgilio.mongo(COLLECTION_NAME)
+            .list()
             .then(function(result) {
                 result = result[0];
                 var searchId = result._id;
 
-                virgilio.mongo()
-                    .from(COLLECTION_NAME)
+                virgilio.mongo(COLLECTION_NAME)
                     .where('_id', '==', 'ObjectId("' + searchId + '")')
-                    .select()
+                    .list()
                     .then(function(foundObjects) {
                         var foundObj = foundObjects[0];
                         assert.deepEqual(foundObj, result);
@@ -118,15 +112,14 @@ describe('I can perform selects on mongo', function() {
                         done();
                     });
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows where statements with a `contains` operator', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .where('nationalities', 'contains', 'dutch')
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.filter(testData, function(person) {
                     return (person.nationalities.indexOf('dutch') !== -1);
@@ -134,15 +127,14 @@ describe('I can perform selects on mongo', function() {
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows where statements with a `!=` operator', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .where('table', '!=', 1)
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.filter(testData, function(person) {
                     var isTable1 = (person.table === 1);
@@ -151,15 +143,14 @@ describe('I can perform selects on mongo', function() {
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows where statements with a `in` operator', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .where('name', 'in', ['rolf', 'daphne'])
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.filter(testData, function(person) {
                     var isDaphne = (person.name === 'daphne');
@@ -169,16 +160,15 @@ describe('I can perform selects on mongo', function() {
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows multiple where statements', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .where('nationalities', 'contains', 'swiss')
             .where('table', '==', 2)
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.filter(testData, function(person) {
                     return (
@@ -189,44 +179,41 @@ describe('I can perform selects on mongo', function() {
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows sorting of results', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
+            .list()
             .orderBy('name')
-            .select()
             .then(function(result) {
                 var expected = _.sortBy(testData, 'name');
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows descending sorting of results', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .orderBy('name', 'desc')
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.sortBy(testData, 'name').reverse();
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('allows multiple sorting', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .orderBy('table')
             .orderBy('name')
-            .select()
+            .list()
             .then(function(result) {
                 var expected = _.sortBy(testData, function(person) {
                     return person.table + person.name;
@@ -234,18 +221,17 @@ describe('I can perform selects on mongo', function() {
                 assert.deepEqual(result, expected);
                 done();
             })
-            .catch(done)
-            .done();
+            .catch(done);
+            //done();
     });
 
     it('throws an error when an invalid ObjectId is used.', function(done) {
-        virgilio.mongo()
-            .from(COLLECTION_NAME)
+        virgilio.mongo(COLLECTION_NAME)
             .where('_id', '==', 'ObjectId("foo")')
-            .select()
+            .list()
             .catch(virgilio.InvalidObjectIdError, function() {
                 done();
-            })
-            .done();
+            });
+            //done();
     });
 });
