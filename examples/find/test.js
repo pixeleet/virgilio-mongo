@@ -1,39 +1,25 @@
-/* global describe, it, before */
+/* global describe, it, before, after */
 var assert = require('assert');
-var MongoClient = require('mongodb').MongoClient;
+// var MongoClient = require('mongodb').MongoClient;
 var virgilio = require('./');
 var _ = require('underscore');
-var async = require('async');
+// var async = require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
 describe('I can perform lists on mongo', function() {
 
     before(function(done) {
-        //Add some test data to mongo to query against.
-        var db = null;
-        var collection = null;
-        async.waterfall([
-            function connectToMongo(callback) {
-                MongoClient.connect(
-                    'mongodb://localhost:27017/test',
-                    callback
-                );
-            },
-            function dropDocument(newDb, callback) {
-                db = newDb;
-                collection = db.collection(COLLECTION_NAME);
-                collection.remove({}, function() {
-                    callback();
-                });
-            },
-            function insertTestData(callback) {
-                collection.insert(testData, callback);
-            }
-        ], function(err) {
-            db.close();
-            done(err);
-        });
+        virgilio.mongo(COLLECTION_NAME).remove()
+            .then(function insertTestData() {
+                virgilio.mongo(COLLECTION_NAME).insert(testData)
+                    .then(done.bind(this, null))
+                    .catch(done);
+            });
+    });
+
+    after(function() {
+        virgilio.mongo().call('close');
     });
 
     it('gets the complete data', function(done) {

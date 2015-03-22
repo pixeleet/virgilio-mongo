@@ -1,46 +1,29 @@
 /* global describe, it, before, after */
 var assert = require('assert');
-var MongoClient = require('mongodb').MongoClient;
 var virgilio = require('./');
-var async = require('async');
 var testData = require('./testData.json');
 var COLLECTION_NAME = 'virgilio-mongo-tests';
 
 describe('I can perform inserts on mongo', function() {
-    var db = null;
-    var collection = null;
 
     before(function(done) {
-        //Clear a document for us to use.
-        async.waterfall([
-            function connectToMongo(callback) {
-                MongoClient.connect(
-                    'mongodb://localhost:27017/test',
-                    callback
-                );
-            },
-            function dropDocument(newDb, callback) {
-                db = newDb;
-                collection = db.collection(COLLECTION_NAME);
-                collection.remove({}, callback);
-            }
-        ], function(err) {
-            done(err);
-        });
+        virgilio.mongo(COLLECTION_NAME).remove()
+            .then(assert.bind(this, testData.length))
+            .then(done.bind(this, null))
+            .catch(done);
     });
 
     after(function() {
-        db.close();
+        virgilio.mongo().call('close');
     });
 
     function checkDataInMongo(done) {
-        collection.find().toArray(function(err, result) {
-            if (err) {
-                return done(err);
-            }
-            assert.deepEqual(result, testData);
-            done();
-        });
+        virgilio.mongo(COLLECTION_NAME).find()
+            .then(function(result) {
+                assert.deepEqual(result, testData);
+                done();
+            })
+            .catch(done);
     }
 
     it('inserts an array of items', function(done) {

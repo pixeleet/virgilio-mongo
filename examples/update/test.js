@@ -6,7 +6,7 @@ var COLLECTION_NAME = 'virgilio-mongo-tests';
 
 describe('I can perform updates on mongo', function() {
     before(function(done) {
-        virgilio.mongo(COLLECTION_NAME).remove().where('*')
+        virgilio.mongo(COLLECTION_NAME).remove()
             .then(function insertTestData() {
                 virgilio.mongo(COLLECTION_NAME).insert(testData)
                     .then(done.bind(this, null))
